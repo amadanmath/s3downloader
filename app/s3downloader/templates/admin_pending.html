@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>
+    Your request for
+    <strong>{{corpus_title}}</strong>
+    has been submitted for approval.
+    Please await a response
+    {#
+    from
+    <strong>{{admin}}</strong>
+    #}
+    at
+    <strong>{{name}} &lt;{{email}}&gt;</strong>.
+  </p>
+
+  {% include 'sub.can_close.html' %}
+{% endblock %}

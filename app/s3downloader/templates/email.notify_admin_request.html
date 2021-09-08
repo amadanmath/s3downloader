@@ -1,0 +1,18 @@
+<p>
+  <strong>{{name}} &lt;{{email}}&gt;</strong>
+  from
+  <strong>{{org}}</strong>
+  has requested links to
+  <strong>{{corpus_title}}</strong>.
+  For your record, you can download the attached JSONL.
+</p>
+
+<p>
+  Please
+  <a href="{{ url_for('respond', approve='approve', name=name, org=org, email=email, _external=True) }}">approve</a>
+  or
+  <a href="{{ url_for('respond', approve='reject', name=name, org=org, email=email, _external=True) }}">reject</a>
+  the request.
+</p>
+
+{% include "sub.jsonl.html" %}

@@ -1,0 +1,19 @@
+<p>
+  The links to the files of
+  <strong>{{corpus_title}}</strong>
+  are in the attachment.
+  The attached links will remain valid for seven days.
+  We suggest using
+  <a href="https://aria2.github.io/">aria2</a>
+  to download them, using a command like this:
+</p>
+
+<blockquote>
+  <code>
+    aria2c --input-file={{corpus_name}}.lst --max-concurrent-downloads=1 --connect-timeout=60 --max-connection-per-server=16 --split=16 --min-split-size=1M --human-readable=true --download-result=full --file-allocation=none
+  </code>
+</blockquote>
+
+<p>
+  Feel free to modify the command to suit your circumstances.
+</p>

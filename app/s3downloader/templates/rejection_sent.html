@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>
+    The rejection notice for
+    <strong>{{corpus_title}}</strong>
+    has been sent to
+    <strong>{{name}} &lt;{{email}}&gt;</strong>
+    at
+    <strong>{{org}}</strong>.
+  </p>
+
+  {% include 'sub.can_close.html' %}
+{% endblock %}

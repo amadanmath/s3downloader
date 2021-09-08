@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>
+    The URLs for
+    <strong>{{corpus_title}}</strong>
+    have been sent to
+    <strong>{{name}} &lt;{{email}}&gt;</strong>
+    at
+    <strong>{{org}}</strong>.
+  </p>
+
+  {% include 'sub.can_close.html' %}
+{% endblock %}
