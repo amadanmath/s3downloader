@@ -5,6 +5,8 @@
 <blockquote><code>openssl smime -decrypt -binary -inform DER -inkey "$PRIVATE_KEY" -in {{attachment_name}}</code></blockquote>
 
 <p>
-Alternately, you can use the script <code>bin/decrypt.sh</code> like this:
+Alternately, you can use the script
+<a download type="text/x-shellscript" href="{{ url_for('static', filename='decrypt.sh', _external=True) }}"><code>decrypt.sh</code></a>
+like this:
 
 <blockquote><code>bin/decrypt.sh -k "$PRIVATE_KEY" {{prefix}}-{{corpus_name}}-*.jsonl.enc</code></blockquote>
