@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import sys
+import ipaddress
 
 from .config import configure
 from .whitelist import check_email
@@ -11,6 +12,12 @@ app = Flask(__name__)
 config = configure(app)
 mailer = Mailer(app, config)
 
+
+
+def ensure_admin():
+    ip = ipaddress.ip_address(request.remote_addr)
+    if config.admin_ip and not any(ip in network for network in config.admin_ip):
+        abort(403)
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -45,6 +52,7 @@ def index():
 
 @app.route("/respond/<approve>", methods=['GET'])
 def respond(approve):
+    ensure_admin()
     name = request.args['name']
     org = request.args['org']
     email = request.args['email']

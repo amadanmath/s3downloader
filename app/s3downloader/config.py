@@ -1,26 +1,26 @@
 from pathlib import Path
+from ipaddress import ip_network
 from ast import literal_eval
-import os
 from types import SimpleNamespace
+import os
+import re
 
 
 
 def boolify(s):
     return bool(literal_eval(s))
 
-def listify(s):
-    if not s:
-        return []
-    return s.split(' ')
 
-def parse_email(s):
+def email(s):
     match = re.match(r'^(.+?)\s*<(\S+)>$', s)
     return (match[1], match[2])
 
-def emailify(s):
+
+def split(s, kind=str, sep=r'[\s,]\s*'):
     if not s:
         return []
-    return [parse_email(e) for e in re.split(r',\s*', s)]
+    return [kind(e) for e in re.split(sep, s)]
+
 
 _no_default=object()
 def configure(app):
@@ -45,6 +45,7 @@ def configure(app):
 
     return SimpleNamespace(
         admin = os.environ['MAIL_ADMIN'],
+        admin_ip = split(os.environ.get('ADMIN_IP', ''), ip_network),
         corpus_name = os.environ['CORPUS_NAME'],
         corpus_title = os.environ['CORPUS_TITLE'],
         aws_profile = os.environ['AWS_PROFILE'],
