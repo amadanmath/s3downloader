@@ -46,8 +46,7 @@ def configure(app):
     return SimpleNamespace(
         admin = os.environ['MAIL_ADMIN'],
         admin_ip = split(os.environ.get('ADMIN_IP', ''), ip_network),
-        corpus_name = os.environ['CORPUS_NAME'],
-        corpus_title = os.environ['CORPUS_TITLE'],
+        default_corpus = os.environ['DEFAULT_CORPUS'],
         aws_profile = os.environ['AWS_PROFILE'],
         data_dir = data_dir,
         pubkey_file = data_dir / "admin.crt",

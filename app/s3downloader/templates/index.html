@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form class="text-center border border-light p-5" action="{{ url_for('index') }}" method="POST" enctype="multipart/form-data">
+  <section>
+    {{corpus.description | safe}}
+  </section>
+
+  <form class="text-center border border-light p-5" action="{{ url_for('corpus', corpus_id=corpus.id) }}" method="POST" enctype="multipart/form-data">
     <p class="h4 mb-4">Please submit your contact information</p>
 
     <input type="text" name="name" class="form-control mb-4" placeholder="Name">

@@ -1,3 +1,4 @@
+<hr/>
 <p>
   For your record, you can download the attached JSONL file. The file is encrypted; to view it, you will need to decrypt it using your private key:
 </p>
@@ -9,4 +10,4 @@ Alternately, you can use the script
 <a download type="text/x-shellscript" href="{{ url_for('static', filename='decrypt.sh', _external=True) }}"><code>decrypt.sh</code></a>
 like this:
 
-<blockquote><code>bin/decrypt.sh -k "$PRIVATE_KEY" {{prefix}}-{{corpus_name}}-*.jsonl.enc</code></blockquote>
+<blockquote><code>bin/decrypt.sh -k "$PRIVATE_KEY" {{prefix}}-{{corpus.id}}-*.jsonl.enc</code></blockquote>

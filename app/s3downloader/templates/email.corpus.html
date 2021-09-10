@@ -1,6 +1,17 @@
+<h2>{{corpus.name}}</h2>
+
+{{corpus.description | safe}}
+<hr/>
+
+{% if corpus.email %}
+  {{corpus.email | safe}}
+  <hr/>
+{% endif %}
+
+<h3>How to download</h3>
 <p>
   The links to the files of
-  <strong>{{corpus_title}}</strong>
+  <strong>{{corpus.name}}</strong>
   are in the attachment.
   The attached links will remain valid for seven days.
   We suggest using
@@ -10,7 +21,7 @@
 
 <blockquote>
   <code>
-    aria2c --input-file={{corpus_name}}.lst --max-concurrent-downloads=1 --connect-timeout=60 --max-connection-per-server=16 --split=16 --min-split-size=1M --human-readable=true --download-result=full --file-allocation=none
+    aria2c --input-file={{corpus.id}}.lst --max-concurrent-downloads=1 --connect-timeout=60 --max-connection-per-server=16 --split=16 --min-split-size=1M --human-readable=true --download-result=full --file-allocation=none
   </code>
 </blockquote>
 
