@@ -47,23 +47,29 @@ class Mailer():
         if approved:
             subject = f"Links to {corpus.name} sent"
             template = "email.notify_admin_notice.html"
-            prefix = "sent"
+            prefix = "approved"
+            ts_field = "responded_at"
         else:
             print(url_for('respond', approve='approve', corpus_id=corpus.id, name=name, org=org, email=email, _external=True)) # XXX
             subject = f"Links to {corpus.name} requested"
             template = "email.notify_admin_request.html"
             prefix = "requested"
+            ts_field = "requested_at"
 
         attachment_name = f"{prefix}-{corpus.id}-{time.time_ns()}.jsonl.enc"
-        jsonl = json.dumps({
+        data = {
             "corpus": corpus.id,
             "name": name,
             "org": org,
             "email": email,
-            "sent_at": int(time.time()),
-            "approved": approved,
-        }) + "\n"
-        result = subprocess.run(["openssl", "smime", "-encrypt", "-aes-256-cbc", "-outform", "DER", self.config.pubkey_file], input=jsonl.encode('utf-8'), capture_output=True)
+            ts_field: int(time.time()),
+            "response_url": url_for('respond', corpus_id=corpus.id, _external=True)
+        }
+        if approved:
+            data["approved"] = approved
+        jsonl = json.dumps(data) + "\n"
+        cmd = ["openssl", "smime", "-encrypt", "-aes-256-cbc", "-outform", "DER", self.config.pubkey_file]
+        result = subprocess.run(cmd, input=jsonl.encode('utf-8'), capture_output=True)
         try:
             result.check_returncode()
             json_enc = result.stdout
@@ -77,9 +83,6 @@ class Mailer():
                 corpus=corpus,
                 prefix=prefix,
                 attachment_name=attachment_name,
-                name=name,
-                org=org,
-                email=email,
             ),
             recipients=[self.config.admin],
         )

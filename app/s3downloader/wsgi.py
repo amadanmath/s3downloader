@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, abort
 import sys
 import ipaddress
 import yaml
+import time
 from types import SimpleNamespace
 
 from .config import configure
@@ -75,30 +76,22 @@ def corpus(corpus_id):
         )
 
 
-@app.route("/<corpus_id>/respond/<approve>", methods=['GET'])
-def respond(corpus_id, approve):
-    corpus = load_corpus_data(corpus_id)
+@app.route("/<corpus_id>/respond", methods=['POST'])
+def respond(corpus_id):
+    data = request.json
     ensure_admin()
-    name = request.args['name']
-    org = request.args['org']
-    email = request.args['email']
-    if approve == 'approve':
+    corpus = load_corpus_data(corpus_id)
+    approve = data['approved']
+    name = data['name']
+    org = data['org']
+    email = data['email']
+    if approve:
         mailer.email_corpus_to(corpus, name, email)
         mailer.email_admin(corpus, name, org, email, True)
-        return render_template('urls_sent.html',
-            corpus=corpus,
-            name=name,
-            org=org,
-            email=email,
-        )
     else:
         mailer.email_rejection_to(corpus, name, org, email)
-        return render_template('rejection_sent.html',
-            corpus=corpus,
-            name=name,
-            org=org,
-            email=email,
-        )
+    data['responded_at'] = int(time.time())
+    return data
 
 
 

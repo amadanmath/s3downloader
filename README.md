@@ -8,9 +8,9 @@ the signed certificate will be placed into `$DATA_DIR/admin.crt`.
 bin/prepare_cert.sh [private_key [output_cert]]
 ```
 
-Place the list of files in `"$DATA_DIR/$CORPUS_ID.lst" (`bucket/path/to/file`,
+Place the list of files in `"$DATA_DIR/$CORPUS_ID.lst"` (`bucket/path/to/file`,
 one per line).
-Add extra data in `"$DATA_DIR/$CORPUS_ID.yaml". Example:
+Add extra data in `"$DATA_DIR/$CORPUS_ID.yaml"`. Example:
 
 ```yaml
 ---
@@ -25,7 +25,7 @@ email: |
   </p>
 ```
 
-Once you have downloaded ".jsonl.enc" files, you can collect them into a
+Once you have downloaded `.jsonl.enc` files, you can collect them into a
 single JSONL file:
 
 
