@@ -4,3 +4,4 @@ __pycache__/
 /setenv.sh
 /run.sh
 /data
+/venv
