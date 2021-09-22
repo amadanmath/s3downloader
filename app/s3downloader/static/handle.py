@@ -4,16 +4,20 @@ from argparse import ArgumentParser
 from contextlib import nullcontext
 from getpass import getpass
 from datetime import datetime
+from http.client import responses
 import subprocess
 import os
 import sys
 import json
-
-import requests
-import tzlocal
+import urllib.request
+import platform
 
 
 _default_keys = ['~/.ssh/id_rsa']
+
+
+osx = platform.system() == 'Darwin'
+date_cmd = ['date -d @{ts} +%FT%T%z', 'date -r {ts} +%FT%T%z'][osx]
 
 
 def parse_args():
@@ -67,10 +71,10 @@ def check_passphrase(args):
             return
 
 
-tz = tzlocal.get_localzone()
 def format_date(ts):
-    local_time = datetime.fromtimestamp(unix_timestamp, tz)
-    return local_time.strftime("%Y-%m-%d %H:%M:%S.%f%z (%Z)")
+    cmd = date_cmd.format(ts=ts).split()
+    formatted = subprocess.check_output(cmd).decode('utf-8').strip()
+    return formatted
 
 
 approve_strings = {
@@ -86,6 +90,10 @@ def main(args):
     output_context = open(args.output, mode, encoding='utf-8') if args.output else nullcontext(sys.stdout)
     with output_context as output:
         for file in args.files:
+            if not os.path.isfile(file):
+                print(f"File not found: {file}", file=sys.stdout)
+                continue
+
             if file.endswith('.jsonl.enc'):
                 cmd = [
                     "openssl", "smime",
@@ -157,15 +165,19 @@ def main(args):
                         del new_data['error']
 
                     try:
-                        response = requests.post(url, json=new_data)
-                        if response.ok:
-                            data = response.json()
+                        req = urllib.request.Request(url)
+                        req.add_header('Content-Type', 'application/json; charset=utf-8')
+                        content = json.dumps(new_data).encode('utf-8')
+                        req.add_header('Content-Length', len(content))
+                        response = urllib.request.urlopen(req, content)
+                        if response.status == 200:
+                            data = json.loads(response.read())
                         else:
-                            code = response.status_code
+                            code = response.status
                             error = f'{code} {responses[code]}'
                             print(f'Error: {file}: {error}', file=sys.stderr)
                             data['error'] = error
-                    except requests.exceptions.ConnectionError as x:
+                    except urllib.error.URLError as x:
                         error = 'cannot connect'
                         print(f'Error: {file}: {error}', file=sys.stderr)
                         data['error'] = error
