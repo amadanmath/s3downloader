@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, abort
+from werkzeug.middleware.proxy_fix import ProxyFix
 import sys
 import ipaddress
 import yaml
@@ -10,9 +11,10 @@ from .whitelist import check_email
 from .mail import Mailer
 
 
-
 app = Flask(__name__)
 config = configure(app)
+if config.num_proxies:
+    app.wsgi_app = ProxyFix(app.wsgi_app, **config.num_proxies)
 mailer = Mailer(app, config)
 
 

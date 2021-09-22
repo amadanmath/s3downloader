@@ -1,0 +1,7 @@
+wheel
+gunicorn
+flask
+flask-mail
+boto3
+pyyaml
+requests

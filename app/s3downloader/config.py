@@ -22,6 +22,15 @@ def split(s, kind=str, sep=r'[\s,]\s*'):
     return [kind(e) for e in re.split(sep, s)]
 
 
+def parse_dict(s):
+    result = {}
+    for part in split(s):
+        k, v = part.split('=', 1)
+        result[k] = int(v)
+    return result
+
+
+
 _no_default=object()
 def configure(app):
     def set_from_env(var, default=_no_default, kind=None):
@@ -48,6 +57,7 @@ def configure(app):
         admin_ip = split(os.environ.get('ADMIN_IP', ''), ip_network),
         default_corpus = os.environ['DEFAULT_CORPUS'],
         aws_profile = os.environ['AWS_PROFILE'],
+        num_proxies = parse_dict(os.environ.get('NUM_PROXIES')),
         data_dir = data_dir,
         pubkey_file = data_dir / "admin.crt",
     )

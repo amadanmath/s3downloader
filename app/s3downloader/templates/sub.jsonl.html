@@ -6,18 +6,18 @@
   The simplest command, which will just decrypt the data, is:
 </p>
 
-<blockquote><code>handle.py {{attachment_name}}</code></blockquote>
+<blockquote><code>python3 handle.py {{attachment_name}}</code></blockquote>
 
 <p>You will have to also provide <code>-k "$PRIVATE_KEY"</code> if you are not using the default one. To accept, use <code>-a</code> switch, or <code>-r</code> to reject. Use <code>-h</code> to see all options. Here are some more examples of usage:
 
 <blockquote><code><pre>
 # approve all requests in the download folder
 # and save records by appending to approved.jsonl
-handle.py -a ~/Downloads/requested-*.jsonl.enc -O approvals.jsonl
+python3 handle.py -a ~/Downloads/requested-*.jsonl.enc -O approvals.jsonl
 
 # reexamine all requests in approvals.jsonl interactively
 # using the private key s3_approvals.pem, with output to reapprovals.jsonl:
-handle.py -k s3_approvals.pem -i approvals.jsonl -o reapprovals.json
+python3 handle.py -k s3_approvals.pem -i approvals.jsonl -o reapprovals.json
 </pre></code></blockquote>
 
 <p>
