@@ -23,12 +23,13 @@ email: |
   <p>
     additional text for email (e.g. licence?)
   </p>
+admin: "Who To Ask For Approval <admin@example.com>"
+sender: "App's Identity <corpus@example.com>"
+reply_to: "Who To Send To When You Reply To Email <admin@example.com>"
 ```
 
-Once you have downloaded `.jsonl.enc` files, you can collect them into a
-single JSONL file:
+Name is obligatory, everything else is optional.
 
-
-```bash
-bin/decrypt.sh [-k private_key] sent-*.jsonl.enc > sent.jsonl
-```
+`bin/sign.sh` can be used to pre-pre-sign all the corpora, so that URLs are
+not generated when the user requests them. It would be best if it was set up
+as a daily cron job.

@@ -32,23 +32,25 @@ def parse_dict(s):
 
 
 _no_default=object()
-def configure(app):
-    def set_from_env(var, default=_no_default, kind=None):
-        if default == _no_default:
-            val = os.environ[var]
-        else:
-            val = os.environ.get(var, _no_default)
-        if val != _no_default:
-            if kind and val is not None:
-                val = kind(val)
-            app.config[var] = val
+def configure(app=None):
+    if app:
+        def set_from_env(var, default=_no_default, kind=None):
+            if default == _no_default:
+                val = os.environ[var]
+            else:
+                val = os.environ.get(var, _no_default)
+            if val != _no_default:
+                if kind and val is not None:
+                    val = kind(val)
+                app.config[var] = val
 
-    set_from_env('MAIL_SERVER')
-    set_from_env('MAIL_PORT', 25, int)
-    set_from_env('MAIL_USERNAME')
-    set_from_env('MAIL_PASSWORD')
-    set_from_env('MAIL_USE_TLS', False, boolify)
-    set_from_env('MAIL_USE_SSL', False, boolify)
+        set_from_env('MAIL_SERVER')
+        set_from_env('MAIL_PORT', 25, int)
+        set_from_env('MAIL_USERNAME')
+        set_from_env('MAIL_PASSWORD')
+        set_from_env('MAIL_USE_TLS', False, boolify)
+        set_from_env('MAIL_USE_SSL', False, boolify)
+
     # set_from_env('MAIL_DEFAULT_SENDER')
     data_dir = Path(os.environ['DATA_DIR'])
     default_admin = os.environ['DEFAULT_ADMIN']
