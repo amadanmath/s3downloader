@@ -2,11 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, abort
 from werkzeug.middleware.proxy_fix import ProxyFix
 import sys
 import ipaddress
-import yaml
 import time
 from types import SimpleNamespace
 
 from .config import configure
+from .corpus import Corpus
 from .whitelist import check_email
 from .mail import Mailer
 
@@ -25,21 +25,6 @@ def ensure_admin():
         abort(403)
 
 
-def load_corpus_data(corpus_id):
-    try:
-        text = (config.data_dir / f"{corpus_id}.yaml").read_text()
-    except FileNotFoundError:
-        if (config.data_dir / f"{corpus_id}.lst").is_file():
-            text = ''
-        else:
-            abort(404)
-
-    parsed = yaml.safe_load(text) or {}
-    parsed['id'] = corpus_id
-    parsed.setdefault('name', corpus_id)
-    return SimpleNamespace(**parsed)
-
-
 
 
 @app.route("/", methods=['GET'])
@@ -49,7 +34,7 @@ def index():
 
 @app.route("/<corpus_id>", methods=['GET', 'POST'])
 def corpus(corpus_id):
-    corpus = load_corpus_data(corpus_id)
+    corpus = Corpus(corpus_id, config)
     if request.method == 'GET':
         return render_template('index.html',
             corpus=corpus,
@@ -74,7 +59,6 @@ def corpus(corpus_id):
             corpus=corpus,
             name=name,
             email=email,
-            admin=config.admin,
         )
 
 
@@ -82,7 +66,7 @@ def corpus(corpus_id):
 def respond(corpus_id):
     data = request.json
     ensure_admin()
-    corpus = load_corpus_data(corpus_id)
+    corpus = Corpus(corpus_id, config)
     approve = data['approved']
     name = data['name']
     org = data['org']
