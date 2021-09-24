@@ -34,7 +34,11 @@ def index():
 
 @app.route("/<corpus_id>", methods=['GET', 'POST'])
 def corpus(corpus_id):
-    corpus = Corpus(corpus_id, config)
+    try:
+        corpus = Corpus(corpus_id, config)
+    except FileNotFoundError:
+        abort(404)
+
     if request.method == 'GET':
         return render_template('index.html',
             corpus=corpus,
@@ -66,7 +70,11 @@ def corpus(corpus_id):
 def respond(corpus_id):
     data = request.json
     ensure_admin()
-    corpus = Corpus(corpus_id, config)
+    try:
+        corpus = Corpus(corpus_id, config)
+    except FileNotFoundError:
+        abort(404)
+
     approve = data['approved']
     name = data['name']
     org = data['org']
