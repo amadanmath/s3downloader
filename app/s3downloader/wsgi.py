@@ -29,7 +29,7 @@ def ensure_admin():
 
 @app.route("/", methods=['GET'])
 def index():
-    return redirect(url_for('corpus', corpus_id=config.default_corpus))
+    return redirect(url_for('corpus', corpus_id=config.default_corpus), 307)
 
 
 @app.route("/<corpus_id>", methods=['GET', 'POST'])

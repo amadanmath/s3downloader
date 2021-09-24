@@ -68,7 +68,7 @@ class Mailer():
         if approved:
             data["approved"] = approved
         jsonl = json.dumps(data) + "\n"
-        cmd = ["openssl", "smime", "-encrypt", "-aes-256-cbc", "-outform", "DER", self.config.pubkey_file]
+        cmd = ["openssl", "smime", "-encrypt", "-aes-256-cbc", "-outform", "DER", corpus.certificate]
         result = subprocess.run(cmd, input=jsonl.encode('utf-8'), capture_output=True)
         try:
             result.check_returncode()

@@ -2,10 +2,10 @@ This project is designed to offer S3-hosted datasets
 
 At setup, prepare the signed encryption certificate.
 By default, `$HOME/.ssh/id_rsa` will be used as the private key, and
-the signed certificate will be placed into `$DATA_DIR/admin.crt`.
+the signed certificate will be placed into `$DATA_DIR/$EMAIL.crt`.
 
 ```bash
-bin/prepare_cert.sh [private_key [output_cert]]
+bin/prepare_cert.sh <email> [private_key [output_cert]]
 ```
 
 Place the list of files in `"$DATA_DIR/$CORPUS_ID.lst"` (`bucket/path/to/file`,
