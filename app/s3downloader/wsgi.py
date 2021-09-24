@@ -36,6 +36,9 @@ def load_corpus_data(corpus_id):
 
     parsed = yaml.safe_load(text) or {}
     parsed['id'] = corpus_id
+    parsed.setdefault('admin', config.default_admin)
+    parsed.setdefault('sender', config.default_sender)
+    parsed.setdefault('reply_to', config.default_reply_to)
     parsed.setdefault('name', corpus_id)
     return SimpleNamespace(**parsed)
 
@@ -74,7 +77,6 @@ def corpus(corpus_id):
             corpus=corpus,
             name=name,
             email=email,
-            admin=config.admin,
         )
 
 

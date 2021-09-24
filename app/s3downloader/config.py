@@ -49,13 +49,18 @@ def configure(app):
     set_from_env('MAIL_PASSWORD')
     set_from_env('MAIL_USE_TLS', False, boolify)
     set_from_env('MAIL_USE_SSL', False, boolify)
-    set_from_env('MAIL_DEFAULT_SENDER')
+    # set_from_env('MAIL_DEFAULT_SENDER')
     data_dir = Path(os.environ['DATA_DIR'])
+    default_admin = os.environ['DEFAULT_ADMIN']
+    default_sender = os.environ.get('DEFAULT_SENDER', default_admin)
+    default_reply_to = os.environ.get('DEFAULT_REPLY_TO', default_sender)
 
     return SimpleNamespace(
-        admin = os.environ['MAIL_ADMIN'],
         admin_ip = split(os.environ.get('ADMIN_IP', ''), ip_network),
+        default_admin = default_admin,
         default_corpus = os.environ['DEFAULT_CORPUS'],
+        default_sender = default_sender,
+        default_reply_to = default_reply_to,
         aws_profile = os.environ['AWS_PROFILE'],
         num_proxies = parse_dict(os.environ.get('NUM_PROXIES')),
         data_dir = data_dir,

@@ -14,6 +14,7 @@ class Mailer():
         self.presigner = Presigner(config.aws_profile)
         self.config = config
 
+
     def email_corpus_to(self, corpus, name, email):
         corpus_file = (self.config.data_dir / corpus.id).with_suffix('.lst')
         with corpus_file.open('rt', encoding='utf-8') as r:
@@ -24,6 +25,8 @@ class Mailer():
             html=render_template('email.corpus.html',
                 corpus=corpus,
             ),
+            sender=corpus.sender,
+            reply_to=corpus.reply_to,
             recipients=[(name, email)],
         )
         msg.attach(f"{corpus.id}.lst", "text/plain", urls_list)
@@ -39,6 +42,8 @@ class Mailer():
                 org=org,
                 email=email,
             ),
+            sender=corpus.sender,
+            reply_to=corpus.reply_to,
             recipients=[(name, email)],
         )
         self.mail.send(msg)
@@ -85,7 +90,9 @@ class Mailer():
                 prefix=prefix,
                 attachment_name=attachment_name,
             ),
-            recipients=[self.config.admin],
+            sender=corpus.sender,
+            reply_to=corpus.reply_to,
+            recipients=[corpus.admin],
         )
         msg.attach(attachment_name, "application/octet-stream", json_enc)
         self.mail.send(msg)
