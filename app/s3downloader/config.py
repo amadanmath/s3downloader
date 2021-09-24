@@ -11,9 +11,15 @@ def boolify(s):
     return bool(literal_eval(s))
 
 
-def email(s):
+def email(s, just_email=False):
     match = re.match(r'^(.+?)\s*<(\S+)>$', s)
-    return (match[1], match[2])
+    if match:
+        if just_email:
+            return match[2]
+        else:
+            return (match[1], match[2])
+    else:
+        return s
 
 
 def split(s, kind=str, sep=r'[\s,]\s*'):
@@ -66,6 +72,5 @@ def configure(app=None):
         aws_profile = os.environ['AWS_PROFILE'],
         num_proxies = parse_dict(os.environ.get('NUM_PROXIES')),
         data_dir = data_dir,
-        pubkey_file = data_dir / "admin.crt",
     )
 

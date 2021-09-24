@@ -2,6 +2,7 @@ import time
 import yaml
 from datetime import timedelta
 from .aws import Presigner
+from .config import email
 
 
 
@@ -13,11 +14,16 @@ class Corpus:
         parsed = yaml.safe_load(text) or {}
 
         self.id = corpus_id
+        self.name = parsed.get('name', corpus_id)
+        self.description = parsed['description']
+        self.email = parsed['email']
+
         self.admin = parsed.get('admin', config.default_admin)
         self.sender = parsed.get('sender', config.default_sender)
         self.reply_to = parsed.get('reply_to', config.default_reply_to)
-        self.reply_to = parsed.get('reply_to', config.default_reply_to)
-        self.name = parsed.get('name', corpus_id)
+        admin_email = email(self.admin, just_email=True)
+        self.certificate = config.data_dir / f"{admin_email}.crt"
+
         self.corpus_file = config.data_dir / f"{corpus_id}.lst"
         self.signed_file = config.data_dir / f"{corpus_id}.signed.lst"
 
