@@ -16,7 +16,7 @@ class Corpus:
         self.id = corpus_id
         self.name = parsed.get('name', corpus_id)
         self.description = parsed['description']
-        self.email = parsed['email']
+        self.email = parsed.get('email')
 
         self.admin = parsed.get('admin', config.default_admin)
         self.sender = parsed.get('sender', config.default_sender)
