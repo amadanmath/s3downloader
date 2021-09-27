@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# crontab
-# 0	0	*	*	*	/path/to/s3downloader/bin/sign.sh /path/to/envfile
-
 set -e
 
 envpath="$1"

@@ -2,6 +2,7 @@ import boto3
 from atomicwrites import atomic_write
 from itertools import takewhile
 from os.path import dirname
+import os
 
 
 seven_days = 7 * 24 * 3600
@@ -43,9 +44,16 @@ class Presigner:
         # aria2_text = ''.join(f"{url}\n dir={dirname(url[prefix_len:])}\n" for url in signed_list)
         aria2_text = ''.join(f"{signed}\n dir={dirname(unsigned)}\n" for unsigned, signed in zip(unsigned_list, signed_list))
 
-        with atomic_write(corpus.signed_file, overwrite=True, mode='wt', encoding='utf-8') as signed_io, atomic_write(corpus.aria2_file, overwrite=True, mode='wt', encoding='utf-8') as aria2_io:
+        options = {
+            "overwrite": True,
+            "mode": 'wt',
+            "encoding": 'utf-8',
+        }
+        with atomic_write(corpus.signed_file, **options) as signed_io, atomic_write(corpus.aria2_file, **options) as aria2_io:
             aria2_io.write(aria2_text)
             signed_io.write(signed_text)
+            os.fchmod(signed_io.fileno(), 0o660)
+            os.fchmod(aria2_io.fileno(), 0o660)
         return signed_text, aria2_text
 
 
