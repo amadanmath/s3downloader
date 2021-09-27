@@ -16,5 +16,4 @@ source "$envpath"
 set +a
 
 top="$(cd "$(dirname "$0")"/..; pwd)"
-cd "$top/app"
-"$top/venv/bin/python" -m s3downloader.aws
+PYTHONPATH="$top/app" "$top/venv/bin/python" -m s3downloader.aws

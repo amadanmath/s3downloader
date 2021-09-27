@@ -12,16 +12,16 @@
 <p>
   The links to the files of
   <strong>{{corpus.name}}</strong>
-  are in the attachment.
+  are in the attachment <code>{{corpus.id}}.lst</code>.
   The attached links will remain valid for at least 5, at most 7 days.
   We suggest using
   <a href="https://aria2.github.io/">aria2</a>
-  to download them, using a command like this:
+  to download them. For your convenience, you can also use the attached <code>{{corpus.id}}.aria2.lst</code>, which will let you download the files while preserving directory structure. Here is a command you can use:
 </p>
 
 <blockquote>
   <code>
-    aria2c --input-file={{corpus.id}}.lst --max-concurrent-downloads=1 --connect-timeout=60 --max-connection-per-server=16 --split=16 --min-split-size=1M --human-readable=true --download-result=full --file-allocation=none
+    aria2c --input-file={{corpus.id}}.aria2.lst --max-connection-per-server=16 --split=16 --min-split-size=1M --human-readable=true --download-result=full --auto-file-renaming=false --continue=true
   </code>
 </blockquote>
 
