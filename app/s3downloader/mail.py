@@ -14,7 +14,7 @@ class Mailer():
 
 
     def email_corpus_to(self, corpus, name, email):
-        signed_list = corpus.signed_urls()
+        signed_list, aria2_list = corpus.signed_urls()
         msg = Message(
             f"Approved: {corpus.name}",
             html=render_template('email.corpus.html',
@@ -25,6 +25,7 @@ class Mailer():
             recipients=[(name, email)],
         )
         msg.attach(f"{corpus.id}.lst", "text/plain", signed_list)
+        msg.attach(f"{corpus.id}.aria2.lst", "text/plain", aria2_list)
         self.mail.send(msg)
 
 

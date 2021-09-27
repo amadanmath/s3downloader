@@ -26,12 +26,15 @@ class Corpus:
 
         self.corpus_file = config.data_dir / f"{corpus_id}.lst"
         self.signed_file = config.data_dir / f"{corpus_id}.signed.lst"
+        self.aria2_file = config.data_dir / f"{corpus_id}.aria2.lst"
 
 
     def signed_urls(self):
         if self.signed_file.is_file():
             age = time.time() - self.signed_file.stat().st_mtime
             if timedelta(seconds=age) < timedelta(days=2):
-                return self.signed_file.read_text(encoding='utf-8')
+                signed = self.signed_file.read_text(encoding='utf-8')
+                aria2 = self.aria2_file.read_text(encoding='utf-8')
+                return (signed, aria2)
         presigner = Presigner(self.config.aws_profile)
         return presigner.presign_list(self)
