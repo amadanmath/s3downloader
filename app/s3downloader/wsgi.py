@@ -7,7 +7,7 @@ from types import SimpleNamespace
 
 from .config import configure
 from .corpus import Corpus
-from .whitelist import check_email
+from .whitelist import Whitelist
 from .mail import Mailer
 
 
@@ -16,6 +16,7 @@ config = configure(app)
 if config.num_proxies:
     app.wsgi_app = ProxyFix(app.wsgi_app, **config.num_proxies)
 mailer = Mailer(app, config)
+whitelist = Whitelist(config.data_dir / 'mail_whitelist.txt')
 
 
 
@@ -48,7 +49,7 @@ def corpus(corpus_id):
     org = request.form['org']
     email = request.form['email']
 
-    if check_email(email):
+    if whitelist(email):
         mailer.email_corpus_to(corpus, name, email)
         mailer.email_admin(corpus, name, org, email, True)
         return render_template('urls_sent.html',
