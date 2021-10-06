@@ -1,0 +1,46 @@
+#!/bin/bash
+
+top="$(cd "$(dirname "$0")"/..; pwd)"
+cmd="$1"
+shift
+
+i18n_dir="$top/app/s3downloader/translations"
+babel_cfg="$top/babel.cfg"
+messages_pot="$i18n_dir/messages.pot"
+
+
+set_lang() {
+  lang="$1"
+  shift
+  if [[ -z "$lang" ]]
+  then
+    echo "Error: language not specified" >/dev/stderr
+    exit 1
+  fi
+}
+
+
+case "$cmd" in
+  extract)
+    mkdir -p "$i18n_dir"
+    pybabel extract -F "$babel_cfg" -k _l -o "$messages_pot" .
+    ;;
+  init)
+    set_lang "$1"
+    pybabel init -i "$messages_pot" -d "$i18n_dir" -l "$lang"
+    ;;
+  edit)
+    set_lang "$1"
+    "${EDITOR:-vim}" "$i18n_dir/$lang/LC_MESSAGES/messages.po"
+    ;;
+  update)
+    pybabel update -i "$messages_pot" -d "$i18n_dir"
+    ;;
+  compile)
+    pybabel compile -d "$i18n_dir"
+    ;;
+  *)
+    echo "Error: supported subcommands: extract, init <lang>, edit <lang>, update, compile" >/dev/stderr
+    exit 1
+    ;;
+esac

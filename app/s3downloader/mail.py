@@ -1,11 +1,9 @@
 from flask_mail import Mail, Message
-from flask import url_for
+from flask import url_for, render_template
 import subprocess
 import time
 import json
 import sys
-
-from .util import render
 
 
 
@@ -19,7 +17,8 @@ class Mailer():
         signed_list, aria2_list = corpus.signed_urls()
         msg = Message(
             f"Approved: {corpus.name}",
-            html=render('email.corpus.html', corpus,
+            html=render_template('email.corpus.html',
+                corpus=corpus,
             ),
             sender=corpus.sender,
             reply_to=corpus.reply_to,
@@ -33,7 +32,8 @@ class Mailer():
     def email_rejection_to(self, corpus, name, org, email):
         msg = Message(
             f"Not approved: {corpus.name}",
-            html=render('email.rejection.html', corpus,
+            html=render_template('email.rejection.html',
+                corpus=corpus,
                 name=name,
                 org=org,
                 email=email,
@@ -80,7 +80,8 @@ class Mailer():
 
         msg = Message(
             subject,
-            html=render(template, corpus,
+            html=render_template(template,
+                corpus=corpus,
                 prefix=prefix,
                 attachment_name=attachment_name,
             ),

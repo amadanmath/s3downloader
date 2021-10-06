@@ -21,6 +21,10 @@ class Corpus:
                 lang = self.langs[0]
             text = (config.data_dir / f"{corpus_id}.{lang}.yaml").read_text()
             parsed.update(yaml.safe_load(text) or {})
+        else:
+            lang = parsed.get('lang')
+            if not lang:
+                lang = 'en'
 
         self.id = corpus_id
         self.lang = lang

@@ -1,0 +1,185 @@
+# Japanese translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-10-06 18:01+0900\n"
+"PO-Revision-Date: 2021-10-06 18:01+0900\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: app/s3downloader/templates/admin_pending.html:5
+#, python-format
+msgid ""
+"Your request for %(corpus_name)s has been submitted for approval to the "
+"corpus administrator."
+msgstr ""
+
+#: app/s3downloader/templates/admin_pending.html:8
+msgid "Please await a response email."
+msgstr ""
+
+#: app/s3downloader/templates/base.html:60
+msgid "Version 0.1 ©2021"
+msgstr ""
+
+#: app/s3downloader/templates/base.html:64
+msgid "Knowledge and Information Research Team (KIRT)"
+msgstr ""
+
+#: app/s3downloader/templates/base.html:69
+msgid "Artificial Intelligence Research Center (AIRC)"
+msgstr ""
+
+#: app/s3downloader/templates/base.html:74
+msgid "National Institute of Advanced Industrial Science and Technology (AIST)"
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:6
+msgid "How to download"
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:9
+#, python-format
+msgid ""
+"The links to the files of %(corpus_name)s are in the attachment "
+"%(list_attachment)s."
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:13
+msgid "The attached links will remain valid for at least 5, at most 7 days."
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:14
+#, python-format
+msgid "We suggest using %(aria_link)s to download them."
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:17
+#, python-format
+msgid ""
+"For your convenience, you can also use the attached %(aria_attachment)s, "
+"which will let you download the files while preserving directory "
+"structure."
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:20
+msgid "Here is a command you can use:"
+msgstr ""
+
+#: app/s3downloader/templates/email.corpus.html:30
+msgid "Feel free to modify the command to suit your circumstances."
+msgstr ""
+
+#: app/s3downloader/templates/email.notify_admin_notice.html:2
+#, python-format
+msgid "%(corpus_name)s links sent."
+msgstr ""
+
+#: app/s3downloader/templates/email.notify_admin_request.html:2
+#, python-format
+msgid "%(corpus_name)s links requested."
+msgstr ""
+
+#: app/s3downloader/templates/email.rejection.html:2
+#, python-format
+msgid ""
+"Unfortunately, we could not verify the identity of %(recipient)s at "
+"%s(org)s."
+msgstr ""
+
+#: app/s3downloader/templates/index.html:10
+msgid "Please submit your contact information"
+msgstr ""
+
+#: app/s3downloader/templates/index.html:13
+msgid "Name"
+msgstr ""
+
+#: app/s3downloader/templates/index.html:14
+msgid "Organisation"
+msgstr ""
+
+#: app/s3downloader/templates/index.html:15
+msgid "E-mail"
+msgstr ""
+
+#: app/s3downloader/templates/index.html:17
+msgid "Send"
+msgstr ""
+
+#: app/s3downloader/templates/sub.can_close.html:2
+msgid "You can close this window."
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:3
+#, python-format
+msgid ""
+"Please download the attached JSONL file, then use the script "
+"%(script_link)s."
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:6
+#, python-format
+msgid "You can use the script interactively by providing %(i_switch)s switch."
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:9
+msgid "The simplest command, which will just decrypt the data, is:"
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:15
+#, python-format
+msgid ""
+"You will have to also provide %(private_key)s if you are not using the "
+"default one."
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:18
+#, python-format
+msgid "To accept, use %(a_switch)s switch, or %(r_switch)s to reject."
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:22
+#, python-format
+msgid "Use %(h_switch)s to see all options."
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:25
+msgid "Here are some more examples of usage:"
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:29
+msgid ""
+"Approve all requests in the download folder and save records by appending"
+" to approved.jsonl:"
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:32
+msgid ""
+"reexamine all requests in approvals.jsonl interactively using the private"
+" key s3_approvals.pem, with output to reapprovals.jsonl:"
+msgstr ""
+
+#: app/s3downloader/templates/sub.jsonl.html:37
+#, python-format
+msgid ""
+"Alternately, if you wish to decrypt the file manually, use %(openssl)s "
+"like this:"
+msgstr ""
+
+#: app/s3downloader/templates/urls_sent.html:5
+#, python-format
+msgid "The URLs for %(corpus_name)s have been sent to %s(recipient)s."
+msgstr ""
+

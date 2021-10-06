@@ -1,14 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, g
+from flask_babel import Babel
 from werkzeug.middleware.proxy_fix import ProxyFix
 import sys
 import ipaddress
 import time
 from types import SimpleNamespace
 
+
 from .config import configure
 from .corpus import Corpus
 from .whitelist import Whitelist
-from .util import render
 from .mail import Mailer
 
 
@@ -17,6 +18,7 @@ config = configure(app)
 if config.num_proxies:
     app.wsgi_app = ProxyFix(app.wsgi_app, **config.num_proxies)
 mailer = Mailer(app, config)
+babel = Babel(app)
 whitelist = Whitelist(config.data_dir / 'mail_whitelist.txt')
 
 
@@ -33,7 +35,8 @@ def get_corpus(corpus_id, lang):
     except FileNotFoundError:
         abort(404)
 
-    g.langs = [
+    g.lang = corpus.lang
+    g.langs = corpus.langs and [
         {
             "id": lang,
             "url": request.url_rule.build({**request.view_args, "lang": lang})[1],
@@ -41,6 +44,14 @@ def get_corpus(corpus_id, lang):
     ]
     return corpus
 
+
+
+@babel.localeselector
+def get_locale():
+    try:
+        return g.lang
+    except AttributeError:
+        return 'en'
 
 
 
@@ -54,7 +65,10 @@ def index():
 def corpus(corpus_id, lang=None):
     corpus = get_corpus(corpus_id, lang)
     if request.method == 'GET':
-        return render('index.html', corpus,
+        if corpus.langs and not lang:
+            return redirect(url_for('corpus', corpus_id=corpus.id, lang=corpus.lang), code=307)
+        return render_template('index.html',
+            corpus=corpus,
         )
 
     name = request.form['name']
@@ -64,21 +78,22 @@ def corpus(corpus_id, lang=None):
     if whitelist(email):
         mailer.email_corpus_to(corpus, name, email)
         mailer.email_admin(corpus, name, org, email, True)
-        return render('urls_sent.html', lang,
+        return render_template('urls_sent.html',
+            corpus=corpus,
             name=name,
             email=email,
         )
 
     else:
         mailer.email_admin(corpus, name, org, email, False)
-        return render('admin_pending.html', corpus,
+        return render_template('admin_pending.html',
+            corpus=corpus,
             name=name,
             email=email,
         )
 
 
 @app.route("/<lang>/<corpus_id>/respond", methods=['POST'])
-@app.route("/<corpus_id>/respond", methods=['POST'])
 def respond(corpus_id, lang=None):
     data = request.json
     ensure_admin()

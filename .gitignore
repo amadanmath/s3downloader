@@ -5,3 +5,5 @@ __pycache__/
 /run.sh
 /data
 /venv
+/app/s3downloader/translations/**/*.mo
+/app/s3downloader/translations/messages.pot

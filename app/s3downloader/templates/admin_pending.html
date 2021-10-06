@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>
+    {{ _("Your request for %(corpus_name)s has been submitted for approval to the corpus administrator.",
+      corpus_name=('<strong>' ~ corpus.name ~ '</strong>') | safe
+    ) }}
+    {{ _("Please await a response email.") }}
+  </p>
+
+  {% include 'sub.can_close.html' %}
+{% endblock %}

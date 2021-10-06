@@ -1,0 +1,31 @@
+<h2>{{corpus.name}}</h2>
+
+{{corpus.rendered_email | safe}}
+
+<h3>
+  {{ _("How to download") }}
+</h3>
+<p>
+  {{ _("The links to the files of %(corpus_name)s are in the attachment %(list_attachment)s.",
+    corpus_name=('<strong>' ~ corpus.name ~ '</strong>') | safe,
+    list_attachment=('<code>' ~ corpus_id ~ '.lst</code>') | safe
+  ) }}
+  {{ _("The attached links will remain valid for at least 5, at most 7 days.") }}
+  {{ _("We suggest using %(aria_link)s to download them.",
+    aria_link=('<a href="https://aria2.github.io/">aria2</a>') | safe
+  ) }}
+  {{ _("For your convenience, you can also use the attached %(aria_attachment)s, which will let you download the files while preserving directory structure.",
+    aria_attachment=('<code>' ~ corpus.id ~ '.aria2.lst</code>') | safe
+  ) }}
+  {{ _("Here is a command you can use:") }}
+</p>
+
+<blockquote>
+  <code>
+    aria2c --input-file={{corpus.id}}.aria2.lst --max-connection-per-server=16 --split=16 --min-split-size=1M --human-readable=true --download-result=full --auto-file-renaming=false --continue=true
+  </code>
+</blockquote>
+
+<p>
+  {{ _("Feel free to modify the command to suit your circumstances.") }}
+</p>

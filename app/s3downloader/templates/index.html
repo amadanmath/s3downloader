@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <section>
+    {{corpus.rendered_description | safe}}
+  </section>
+
+  <form class="text-center border border-light p-5" action="{{ url_for('corpus', lang=corpus.lang, corpus_id=corpus.id) }}" method="POST" enctype="multipart/form-data">
+    <p class="h4 mb-4">
+      {{ _("Please submit your contact information") }}
+    </p>
+
+    <input type="text" name="name" class="form-control mb-4" placeholder="{{ _("Name") }}">
+    <input type="text" name="org" class="form-control mb-4" placeholder="{{ _("Organisation") }}">
+    <input type="email" name="email" class="form-control mb-4" placeholder="{{ _("E-mail") }}">
+
+    <button class="btn btn-info btn-block my-4" type="submit">{{ _("Send") }}</button>
+  </form>
+{% endblock %}
