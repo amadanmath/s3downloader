@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, g
+from flask_babel import Babel
 from werkzeug.middleware.proxy_fix import ProxyFix
 import sys
 import ipaddress
 import time
 from types import SimpleNamespace
+
 
 from .config import configure
 from .corpus import Corpus
@@ -16,6 +18,7 @@ config = configure(app)
 if config.num_proxies:
     app.wsgi_app = ProxyFix(app.wsgi_app, **config.num_proxies)
 mailer = Mailer(app, config)
+babel = Babel(app)
 whitelist = Whitelist(config.data_dir / 'mail_whitelist.txt')
 
 
@@ -26,6 +29,30 @@ def ensure_admin():
         abort(403)
 
 
+def get_corpus(corpus_id, lang):
+    try:
+        corpus = Corpus(corpus_id, lang, config)
+    except FileNotFoundError:
+        abort(404)
+
+    g.lang = corpus.lang
+    g.langs = corpus.langs and [
+        {
+            "id": lang,
+            "url": request.url_rule.build({**request.view_args, "lang": lang})[1],
+        } for lang in corpus.langs
+    ]
+    return corpus
+
+
+
+@babel.localeselector
+def get_locale():
+    try:
+        return g.lang
+    except AttributeError:
+        return 'en'
+
 
 
 @app.route("/", methods=['GET'])
@@ -33,14 +60,13 @@ def index():
     return redirect(url_for('corpus', corpus_id=config.default_corpus), 307)
 
 
+@app.route("/<lang>/<corpus_id>", methods=['GET', 'POST'])
 @app.route("/<corpus_id>", methods=['GET', 'POST'])
-def corpus(corpus_id):
-    try:
-        corpus = Corpus(corpus_id, config)
-    except FileNotFoundError:
-        abort(404)
-
+def corpus(corpus_id, lang=None):
+    corpus = get_corpus(corpus_id, lang)
     if request.method == 'GET':
+        if corpus.langs and not lang:
+            return redirect(url_for('corpus', corpus_id=corpus.id, lang=corpus.lang), code=307)
         return render_template('index.html',
             corpus=corpus,
         )
@@ -67,14 +93,11 @@ def corpus(corpus_id):
         )
 
 
-@app.route("/<corpus_id>/respond", methods=['POST'])
-def respond(corpus_id):
+@app.route("/<lang>/<corpus_id>/respond", methods=['POST'])
+def respond(corpus_id, lang=None):
     data = request.json
     ensure_admin()
-    try:
-        corpus = Corpus(corpus_id, config)
-    except FileNotFoundError:
-        abort(404)
+    corpus = get_corpus(corpus_id, lang)
 
     approve = data['approved']
     name = data['name']

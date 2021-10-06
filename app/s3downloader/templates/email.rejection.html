@@ -1,6 +1,6 @@
 <p>
-  Unfortunately, we could not verify the identity of
-  <strong>{{name}} &lt;{{email}}&gt;</strong>
-  at
-  <strong>{{org}}</strong>.
+  {{ _("Unfortunately, we could not verify the identity of %(recipient)s at %s(org)s.",
+    recipient=('<strong>' ~ name ~ ' &lt;' ~ email ~ '&gt;</strong>') | safe,
+    org=('<strong>' ~ org ~ '</strong>') | safe
+  ) }}
 </p>

@@ -1,5 +1,5 @@
 from flask_mail import Mail, Message
-from flask import render_template, url_for
+from flask import url_for, render_template
 import subprocess
 import time
 import json
@@ -64,7 +64,7 @@ class Mailer():
             "org": org,
             "email": email,
             ts_field: int(time.time()),
-            "response_url": url_for('respond', corpus_id=corpus.id, _external=True)
+            "response_url": url_for('respond', corpus_id=corpus.id, lang=corpus.lang, _external=True)
         }
         if approved:
             data["approved"] = approved

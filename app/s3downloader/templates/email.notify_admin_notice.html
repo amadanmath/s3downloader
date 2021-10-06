@@ -1,5 +1,7 @@
 <p>
-  <strong>{{corpus.name}}</strong> links sent.
+  {{ _("%(corpus_name)s links sent.",
+    corpus_name=('<strong>' ~ corpus.name ~ '</strong>') | safe
+  ) }}
 </p>
 
 {% include "sub.jsonl.html" %}

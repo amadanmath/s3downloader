@@ -2,10 +2,10 @@
 
 {% block content %}
   <p>
-    The URLs for
-    <strong>{{corpus.name}}</strong>
-    have been sent to
-    <strong>{{name}} &lt;{{email}}&gt;</strong>.
+    {{ _("The URLs for %(corpus_name)s have been sent to %s(recipient)s.",
+      corpus_name=('<strong>' ~ corpus.name ~ '</strong>') | safe,
+      recipient=('<strong>' ~ name ~ ' &lt;' ~ email ~ '&gt;</strong>') | safe
+    ) }}
   </p>
 
   {% include 'sub.can_close.html' %}
