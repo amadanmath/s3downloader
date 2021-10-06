@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-10-06 18:01+0900\n"
+"POT-Creation-Date: 2021-10-06 19:40+0900\n"
 "PO-Revision-Date: 2021-10-06 18:01+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -103,18 +103,24 @@ msgid "Please submit your contact information"
 msgstr ""
 
 #: app/s3downloader/templates/index.html:13
+msgid ""
+"Please fill in the form and we will send you the links to the dataset "
+"after we check the application."
+msgstr ""
+
+#: app/s3downloader/templates/index.html:16
 msgid "Name"
 msgstr ""
 
-#: app/s3downloader/templates/index.html:14
+#: app/s3downloader/templates/index.html:17
 msgid "Organisation"
 msgstr ""
 
-#: app/s3downloader/templates/index.html:15
+#: app/s3downloader/templates/index.html:18
 msgid "E-mail"
 msgstr ""
 
-#: app/s3downloader/templates/index.html:17
+#: app/s3downloader/templates/index.html:20
 msgid "Send"
 msgstr ""
 
