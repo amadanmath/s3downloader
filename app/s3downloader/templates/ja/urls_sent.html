@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>
+    The URLs for
+    <strong>{{corpus.name}}</strong>
+    have been sent to
+    <strong>{{name}} &lt;{{email}}&gt;</strong>.
+  </p>
+
+  {% include corpus.lang ~ '/sub.can_close.html' %}
+{% endblock %}

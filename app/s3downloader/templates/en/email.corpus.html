@@ -1,12 +1,6 @@
 <h2>{{corpus.name}}</h2>
 
-{{corpus.description | safe}}
-<hr/>
-
-{% if corpus.email %}
-  {{corpus.email | safe}}
-  <hr/>
-{% endif %}
+{{corpus.rendered_email | safe}}
 
 <h3>How to download</h3>
 <p>

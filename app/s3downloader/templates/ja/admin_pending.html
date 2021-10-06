@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <p>
+    Your request for
+    <strong>{{corpus.name}}</strong>
+    has been submitted for approval to the corpus administrator.
+    Please await a response email.
+  </p>
+
+  {% include corpus.lang ~ '/sub.can_close.html' %}
+{% endblock %}

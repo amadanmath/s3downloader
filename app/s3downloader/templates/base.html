@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{{corpus.name}}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
@@ -38,6 +38,17 @@
     <header class="mb-3 px-3">
       <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="{{ url_for('index') }}"><strong>{{corpus.name}}</strong></a>
+        <ul class="navbar-nav ms-auto">
+          {% if g.langs %}
+            {% for lang in g.langs %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{lang.url}}">
+                  <img src="{{ url_for('static', filename='flags/' ~ lang.id ~ '.png') }}">
+                </a>
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
       </nav>
     </header>
     <main class="container">

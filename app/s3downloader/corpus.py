@@ -1,22 +1,33 @@
 import time
 import yaml
+from flask import render_template_string
 from datetime import timedelta
 from .aws import Presigner
 from .config import email
 
 
-
 class Corpus:
-    def __init__(self, corpus_id, config):
-        self.config = config
+    def __init__(self, corpus_id, lang, config):
+        parts = corpus_id.rpartition('.')
+        if len(parts[2]) == 2 and not lang and parts[0]:
+            corpus_id, _, lang = parts
 
         text = (config.data_dir / f"{corpus_id}.yaml").read_text()
         parsed = yaml.safe_load(text) or {}
 
+        self.langs = parsed.get('langs')
+        if self.langs:
+            if not lang:
+                lang = self.langs[0]
+            text = (config.data_dir / f"{corpus_id}.{lang}.yaml").read_text()
+            parsed.update(yaml.safe_load(text) or {})
+
         self.id = corpus_id
+        self.lang = lang
+        self.config = config
         self.name = parsed.get('name', corpus_id)
         self.description = parsed['description']
-        self.email = parsed.get('email')
+        self.email = parsed.get('email', self.description)
 
         self.admin = parsed.get('admin', config.default_admin)
         self.sender = parsed.get('sender', config.default_sender)
@@ -27,6 +38,15 @@ class Corpus:
         self.corpus_file = config.data_dir / f"{corpus_id}.lst"
         self.signed_file = config.data_dir / f"{corpus_id}.signed.lst"
         self.aria2_file = config.data_dir / f"{corpus_id}.aria2.lst"
+
+
+    @property
+    def rendered_description(self):
+        return render_template_string(self.description, corpus=self)
+
+    @property
+    def rendered_email(self):
+        return render_template_string(self.email, corpus=self)
 
 
     def signed_urls(self):
