@@ -39,7 +39,7 @@ def get_corpus(corpus_id, lang):
     g.langs = corpus.langs and [
         {
             "id": lang,
-            "url": request.url_rule.build({**request.view_args, "lang": lang})[1],
+            "url": url_for(request.endpoint, **{**request.view_args, "lang": lang}),
         } for lang in corpus.langs
     ]
     return corpus
