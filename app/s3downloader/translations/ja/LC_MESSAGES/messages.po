@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-10-06 19:40+0900\n"
+"POT-Creation-Date: 2021-10-07 02:36+0000\n"
 "PO-Revision-Date: 2021-10-07 10:55+0900\n"
+"Last-Translator: \n"
 "Language: ja\n"
 "Language-Team: ja <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
-"Last-Translator: \n"
-"X-Generator: Poedit 3.0\n"
 
 #: app/s3downloader/templates/admin_pending.html:5
 #, python-format
@@ -55,9 +54,7 @@ msgstr "ダウンロード方法"
 msgid ""
 "The links to the files of %(corpus_name)s are in the attachment "
 "%(list_attachment)s."
-msgstr ""
-"%(corpus_name)sのダウンロード先は添付ファイル (%(list_attachment)s) に記載さ"
-"れています．"
+msgstr "%(corpus_name)sのダウンロード先は添付ファイル (%(list_attachment)s) に記載されています．"
 
 #: app/s3downloader/templates/email.corpus.html:13
 msgid "The attached links will remain valid for at least 5, at most 7 days."
@@ -72,10 +69,9 @@ msgstr "ダウンロードには%(aria_link)sを使うと便利です．"
 #, python-format
 msgid ""
 "For your convenience, you can also use the attached %(aria_attachment)s, "
-"which will let you download the files while preserving directory structure."
-msgstr ""
-"%(aria_attachment)sを使うとディレクトリ構造を保持したまま大量のファイルをダウ"
-"ンロードすることができます．"
+"which will let you download the files while preserving directory "
+"structure."
+msgstr "%(aria_attachment)sを使うとディレクトリ構造を保持したまま大量のファイルをダウンロードすることができます．"
 
 #: app/s3downloader/templates/email.corpus.html:20
 msgid "Here is a command you can use:"
@@ -98,8 +94,9 @@ msgstr "%(corpus_name)sのリンク請求"
 #: app/s3downloader/templates/email.rejection.html:2
 #, python-format
 msgid ""
-"Unfortunately, we could not verify the identity of %(recipient)s at %s(org)s."
-msgstr "%(recipient)sさんの組織「%s(org)s」が特定できませんでした．"
+"Unfortunately, we could not verify the identity of %(recipient)s at "
+"%(org)s."
+msgstr "%(recipient)sさんの組織「%(org)s」が特定できませんでした．"
 
 #: app/s3downloader/templates/index.html:10
 msgid "Please submit your contact information"
@@ -107,11 +104,9 @@ msgstr "連絡先を入力してください．"
 
 #: app/s3downloader/templates/index.html:13
 msgid ""
-"Please fill in the form and we will send you the links to the dataset after "
-"we check the application."
-msgstr ""
-"以下のフォームを埋めてください．審査しデータセットへのリンクURLをお送りいたし"
-"ます．"
+"Please fill in the form and we will send you the links to the dataset "
+"after we check the application."
+msgstr "以下のフォームを埋めてください．審査しデータセットへのリンクURLをお送りいたします．"
 
 #: app/s3downloader/templates/index.html:16
 msgid "Name"
@@ -136,7 +131,8 @@ msgstr "申請完了，このウィンドウは閉じていただいて構いま
 #: app/s3downloader/templates/sub.jsonl.html:3
 #, python-format
 msgid ""
-"Please download the attached JSONL file, then use the script %(script_link)s."
+"Please download the attached JSONL file, then use the script "
+"%(script_link)s."
 msgstr "添付のJSONLファイルをダウンロードし%(script_link)sを動かしてください．"
 
 #: app/s3downloader/templates/sub.jsonl.html:6
@@ -158,9 +154,7 @@ msgstr "%(private_key)s を指定する必要があります．"
 #: app/s3downloader/templates/sub.jsonl.html:18
 #, python-format
 msgid "To accept, use %(a_switch)s switch, or %(r_switch)s to reject."
-msgstr ""
-"リクエストを承認するには%(a_switch)s ，非承認するには%(r_switch)s にスイッチ"
-"してください．"
+msgstr "リクエストを承認するには%(a_switch)s ，非承認するには%(r_switch)s にスイッチしてください．"
 
 #: app/s3downloader/templates/sub.jsonl.html:22
 #, python-format
@@ -173,28 +167,27 @@ msgstr "使用例:"
 
 #: app/s3downloader/templates/sub.jsonl.html:29
 msgid ""
-"Approve all requests in the download folder and save records by appending to "
-"approved.jsonl:"
-msgstr ""
-"ダウンロードフォルダのすべてのリクエストを承認し，approved.jsonlに追記する:"
+"Approve all requests in the download folder and save records by appending"
+" to approved.jsonl:"
+msgstr "ダウンロードフォルダのすべてのリクエストを承認し，approved.jsonlに追記する:"
 
 #: app/s3downloader/templates/sub.jsonl.html:32
 msgid ""
-"reexamine all requests in approvals.jsonl interactively using the private "
-"key s3_approvals.pem, with output to reapprovals.jsonl:"
+"reexamine all requests in approvals.jsonl interactively using the private"
+" key s3_approvals.pem, with output to reapprovals.jsonl:"
 msgstr ""
-"approvals.jsonl内のすべてのリクエストを秘密鍵 (key s3_approvals.pem)を使って"
-"再承認し，結果をreapprovals.jsonlに書き出す:"
+"approvals.jsonl内のすべてのリクエストを秘密鍵 (key "
+"s3_approvals.pem)を使って再承認し，結果をreapprovals.jsonlに書き出す:"
 
 #: app/s3downloader/templates/sub.jsonl.html:37
 #, python-format
 msgid ""
-"Alternately, if you wish to decrypt the file manually, use %(openssl)s like "
-"this:"
-msgstr ""
-"別の方法としては，%(openssl)s を使って以下のように復号化することもできます:"
+"Alternately, if you wish to decrypt the file manually, use %(openssl)s "
+"like this:"
+msgstr "別の方法としては，%(openssl)s を使って以下のように復号化することもできます:"
 
 #: app/s3downloader/templates/urls_sent.html:5
 #, python-format
-msgid "The URLs for %(corpus_name)s have been sent to %s(recipient)s."
-msgstr "%(corpus_name)s へのリンクURLは%s(recipient)sに送信されました．"
+msgid "The URLs for %(corpus_name)s have been sent to %(recipient)s."
+msgstr "%(corpus_name)s へのリンクURLは%(recipient)sに送信されました．"
+

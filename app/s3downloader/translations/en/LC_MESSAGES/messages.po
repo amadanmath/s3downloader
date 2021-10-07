@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-10-06 19:40+0900\n"
+"POT-Creation-Date: 2021-10-07 02:36+0000\n"
 "PO-Revision-Date: 2021-10-06 18:01+0900\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -95,7 +95,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Unfortunately, we could not verify the identity of %(recipient)s at "
-"%s(org)s."
+"%(org)s."
 msgstr ""
 
 #: app/s3downloader/templates/index.html:10
@@ -186,6 +186,6 @@ msgstr ""
 
 #: app/s3downloader/templates/urls_sent.html:5
 #, python-format
-msgid "The URLs for %(corpus_name)s have been sent to %s(recipient)s."
+msgid "The URLs for %(corpus_name)s have been sent to %(recipient)s."
 msgstr ""
 
