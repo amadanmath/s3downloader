@@ -4,6 +4,9 @@ import subprocess
 import time
 import json
 import sys
+from babel import Locale
+from flask_babel import Domain
+from jinja2.ext import _make_new_gettext
 
 
 
@@ -78,12 +81,21 @@ class Mailer():
             print(result.stderr.decode('utf-8'), file=sys.stderr)
             raise
 
+        if corpus.admin_lang:
+            admin_domain = Domain(locale=Locale.parse(corpus.admin_lang))
+            i18n_functions = {
+                "_": _make_new_gettext(admin_domain.gettext),
+            }
+        else:
+            i18n_functions = {}
+
         msg = Message(
             subject,
             html=render_template(template,
                 corpus=corpus,
                 prefix=prefix,
                 attachment_name=attachment_name,
+                **i18n_functions,
             ),
             sender=corpus.sender,
             reply_to=corpus.reply_to,
