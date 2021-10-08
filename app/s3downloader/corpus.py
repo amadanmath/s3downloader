@@ -34,6 +34,7 @@ class Corpus:
         self.email = parsed.get('email', self.description)
 
         self.admin = parsed.get('admin', config.default_admin)
+        self.admin_lang = parsed.get('admin_lang')
         self.sender = parsed.get('sender', config.default_sender)
         self.reply_to = parsed.get('reply_to', config.default_reply_to)
         admin_email = email(self.admin, just_email=True)

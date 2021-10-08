@@ -30,6 +30,7 @@ email: |
     HTML for email
   </p>
 admin: "Who To Ask For Approval <admin@example.com>"
+admin_lang: en
 sender: "App's Identity <corpus@example.com>"
 reply_to: "Who To Send To When You Reply To Email <admin@example.com>"
 ```
