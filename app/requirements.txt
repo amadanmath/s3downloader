@@ -1,9 +1,0 @@
-wheel
-gunicorn
-flask
-flask-mail
-git+https://github.com/amadanmath/flask-babel.git
-boto3
-pyyaml
-requests
-atomicwrites

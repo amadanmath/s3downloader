@@ -1,0 +1,40 @@
+# .envrc template
+# Copy this file to .envrc and fill in the actual values
+
+layout poetry
+
+# Email server configuration for sending notifications
+export MAIL_SERVER=localhost
+export MAIL_PORT=1025
+export MAIL_USERNAME=
+export MAIL_PASSWORD=
+export MAIL_USE_TLS=false
+export MAIL_USE_SSL=false
+
+# Admin configuration
+export DEFAULT_ADMIN="Admin Name <admin@example.com>"
+export DEFAULT_SENDER="S3 Downloader <downloader@example.com>"
+export DEFAULT_REPLY_TO="Admin Support <admin@example.com>"
+
+# Security configuration - IP addresses or subnets authorized to approve/reject requests
+# Can be overridden per corpus with admin_ip field in corpus YAML
+export ADMIN_IP=127.0.0.1
+
+# Default corpus to display if none specified
+export DEFAULT_CORPUS=example
+
+# Directory containing corpus definitions and data
+export DATA_DIR=./data
+
+# AWS profile for S3 access
+export AWS_PROFILE=default
+
+# Number of reverse proxies (for IP address handling)
+export NUM_PROXIES=0
+
+# Optional: Certificate expiration warning period (days)
+export CERT_WARNING_DAYS=30
+
+# Optional: Server configuration for URL generation
+# export PORT=5000
+export SERVER_NAME=server.example.com

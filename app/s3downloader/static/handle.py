@@ -9,6 +9,7 @@ import subprocess
 import os
 import sys
 import json
+import time
 import urllib.request
 import platform
 
@@ -69,6 +70,8 @@ def check_passphrase(args):
             args.passphrase = getpass(prompt)
         else:
             return
+
+
 
 
 def format_date(ts):
@@ -163,6 +166,38 @@ def main(args):
                     }
                     if 'error' in new_data:
                         del new_data['error']
+                    
+                    # Add cryptographic signature to prove admin authorization
+                    signature_data = {
+                        'corpus': new_data['corpus'],
+                        'email': new_data['email'],
+                        'approved': new_data['approved'],
+                        'timestamp': int(time.time())
+                    }
+                    new_data['signature_timestamp'] = signature_data['timestamp']
+                    
+                    # Create signature using admin's private key
+                    try:
+                        signature_text = json.dumps(signature_data, sort_keys=True)
+                        cmd = [
+                            "openssl", "dgst", "-sha256", "-sign", args.key
+                        ]
+                        if args.passphrase:
+                            cmd.extend(["-passin", f"pass:{args.passphrase}"])
+                        
+                        result = subprocess.run(cmd, input=signature_text.encode('utf-8'), 
+                                              capture_output=True, check=True)
+                        import base64
+                        signature_b64 = base64.b64encode(result.stdout).decode('ascii')
+                        new_data['admin_signature'] = signature_b64
+                        new_data['signature_data'] = signature_data
+                        
+                    except subprocess.CalledProcessError as e:
+                        print(f'Error: Failed to create signature: {e}', file=sys.stderr)
+                        continue
+                    except Exception as e:
+                        print(f'Error: Signature generation failed: {e}', file=sys.stderr)
+                        continue
 
                     try:
                         req = urllib.request.Request(url)
@@ -172,13 +207,22 @@ def main(args):
                         response = urllib.request.urlopen(req, content)
                         if response.status == 200:
                             data = json.loads(response.read())
+                            # Confirmation message to stderr
+                            action = "approved" if new_data['approved'] else "rejected"
+                            print(f'✓ Successfully {action} request for {new_data["email"]} (corpus: {new_data["corpus"]})', file=sys.stderr)
                         else:
                             code = response.status
                             error = f'{code} {responses[code]}'
                             print(f'Error: {file}: {error}', file=sys.stderr)
                             data['error'] = error
+                    except urllib.error.HTTPError as x:
+                        error = f'{x.code} {x.reason}'
+                        if x.code == 403:
+                            error += ' (signature verification failed or IP not authorized)'
+                        print(f'Error: {file}: {error}', file=sys.stderr)
+                        data['error'] = error
                     except urllib.error.URLError as x:
-                        error = 'cannot connect'
+                        error = f'cannot connect: {x.reason}'
                         print(f'Error: {file}: {error}', file=sys.stderr)
                         data['error'] = error
 

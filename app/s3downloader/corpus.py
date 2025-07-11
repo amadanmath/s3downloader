@@ -3,7 +3,8 @@ import yaml
 from flask import render_template_string
 from datetime import timedelta
 from .aws import Presigner
-from .config import email
+from .config import email, split
+from ipaddress import ip_network
 
 
 class Corpus:
@@ -39,6 +40,13 @@ class Corpus:
         self.reply_to = parsed.get('reply_to', config.default_reply_to)
         admin_email = email(self.admin, just_email=True)
         self.certificate = config.data_dir / f"{admin_email}.crt"
+        
+        # Admin IP networks - use corpus-specific if defined, otherwise fall back to global
+        corpus_admin_ip = parsed.get('admin_ip')
+        if corpus_admin_ip:
+            self.admin_ip = split(corpus_admin_ip, ip_network)
+        else:
+            self.admin_ip = config.admin_ip
 
         self.corpus_file = config.data_dir / f"{corpus_id}.lst"
         self.signed_file = config.data_dir / f"{corpus_id}.signed.lst"
