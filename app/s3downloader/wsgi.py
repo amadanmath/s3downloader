@@ -30,10 +30,14 @@ def save_server_config():
     """Save server configuration on each request for use by scripts"""
     server_config_file = config.data_dir / 'server.conf'
     
+    # Extract application root from request path
+    script_name = request.environ.get('SCRIPT_NAME', '')
+    
     server_config = {
         'server_name': request.host,
         'scheme': request.scheme,
-        'base_url': request.host_url.rstrip('/')
+        'base_url': request.host_url.rstrip('/'),
+        'application_root': script_name
     }
     
     with open(server_config_file, 'w') as f:
@@ -42,8 +46,9 @@ def save_server_config():
 
 @app.before_request
 def before_request():
-    """Save server config on each request"""
-    save_server_config()
+    """Save server config on each request (only if APP_BASE_URL not defined)"""
+    if not config.app_base_url:
+        save_server_config()
 
 
 

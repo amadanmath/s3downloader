@@ -188,25 +188,42 @@ def check_certs():
             app = Flask(__name__)
             configure(app)
             
-            # Load server configuration from saved file
-            server_config_file = config.data_dir / 'server.conf'
-            if server_config_file.exists():
-                with open(server_config_file, 'r') as f:
-                    server_config = json.load(f)
-                app.config['SERVER_NAME'] = server_config['server_name']
-                app.config['PREFERRED_URL_SCHEME'] = server_config['scheme']
+            # Check if APP_BASE_URL is explicitly defined in config
+            if config.app_base_url:
+                # Parse the base URL to extract components for Flask
+                from urllib.parse import urlparse
+                parsed = urlparse(config.app_base_url)
+                app.config['SERVER_NAME'] = parsed.netloc
+                app.config['PREFERRED_URL_SCHEME'] = parsed.scheme
+                if parsed.path and parsed.path != '/':
+                    app.config['APPLICATION_ROOT'] = parsed.path
+                url_available = True
             else:
-                # Fallback to environment variables
-                port = os.environ.get('PORT', '5002')
-                server_name = os.environ.get('SERVER_NAME', f'localhost:{port}')
-                app.config['SERVER_NAME'] = server_name
-                app.config['PREFERRED_URL_SCHEME'] = 'http'
+                # Load server configuration from saved file
+                server_config_file = config.data_dir / 'server.conf'
+                if server_config_file.exists():
+                    with open(server_config_file, 'r') as f:
+                        server_config = json.load(f)
+                    app.config['SERVER_NAME'] = server_config['server_name']
+                    app.config['PREFERRED_URL_SCHEME'] = server_config['scheme']
+                    if server_config.get('application_root'):
+                        app.config['APPLICATION_ROOT'] = server_config['application_root']
+                    url_available = True
+                else:
+                    # No server config available - use placeholder
+                    port = os.environ.get('PORT', '5002')
+                    app.config['SERVER_NAME'] = f'localhost:{port}'
+                    app.config['PREFERRED_URL_SCHEME'] = 'http'
+                    url_available = False
             
             with app.app_context():
                 mailer = Mailer(app, config)
                 
                 # Get the base URL for certificate preparation script
-                prepare_cert_url = url_for('static', filename='prepare_cert.sh', _external=True)
+                if url_available:
+                    prepare_cert_url = url_for('static', filename='prepare_cert.sh', _external=True)
+                else:
+                    prepare_cert_url = None
                 
                 for cert_info in expiring_certs:
                     try:
@@ -222,6 +239,12 @@ def check_certs():
                             urgency_text = "Please renew your certificate before it expires to avoid service interruption."
                             days_text = f"<li><strong>Days Until Expiry:</strong> {cert_info['days_until_expiry']}</li>"
                         
+                        # Create download instructions based on URL availability
+                        if prepare_cert_url:
+                            download_text = f'<p>Download the certificate preparation script: <a href="{prepare_cert_url}" download type="text/x-shellscript">prepare_cert.sh</a></p>'
+                        else:
+                            download_text = '<p><strong>Note:</strong> Please edit the sample URL below to match your application\'s actual URL to download the certificate preparation script at <code>YOUR_APP_URL/static/prepare_cert.sh</code></p>'
+                        
                         body = f"""
                         <h2>Certificate Expiration Warning</h2>
                         <p>{warning_text}</p>
@@ -235,7 +258,7 @@ def check_certs():
                         
                         <h3>Certificate Renewal Instructions</h3>
                         <p><strong>Note:</strong> OpenSSL is required for certificate generation.</p>
-                        <p>Download the certificate preparation script: <a href="{prepare_cert_url}" download type="text/x-shellscript">prepare_cert.sh</a></p>
+                        {download_text}
                         <p>Run the script with your email address:</p>
                         <pre>
 chmod +x prepare_cert.sh

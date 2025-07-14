@@ -72,5 +72,6 @@ def configure(app=None):
         aws_profile = os.environ['AWS_PROFILE'],
         num_proxies = parse_dict(os.environ.get('NUM_PROXIES')),
         data_dir = data_dir,
+        app_base_url = os.environ.get('APP_BASE_URL'),
     )
 

@@ -25,7 +25,7 @@ fi
 echo "Creating certificate for $EMAIL using private key $PRIVATE_KEY"
 
 # Check if private key is encrypted
-if openssl rsa -in "$PRIVATE_KEY" -check -noout 2>/dev/null; then
+if openssl rsa -in "$PRIVATE_KEY" -passin pass: -noout 2>/dev/null; then
     # Unencrypted key - use directly
     PASSIN_ARGS=()
 else
@@ -49,4 +49,4 @@ openssl x509 -req -in "${EMAIL}.csr" -signkey "$PRIVATE_KEY" \
 rm -f "${EMAIL}.csr"
 
 echo "Certificate created: $OUTPUT_CERT"
-echo "Place this file in your data directory for the S3 downloader to use."
+echo "Ask the S3 downloader administrator to place this file in the data directory."
