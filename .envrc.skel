@@ -1,6 +1,7 @@
 # .envrc template
 # Copy this file to .envrc and fill in the actual values
 
+
 layout poetry
 
 # Email server configuration for sending notifications
