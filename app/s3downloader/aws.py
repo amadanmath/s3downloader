@@ -65,7 +65,7 @@ def sign_all_corpora():
 
     config = configure()
     yaml_files = config.data_dir.glob('*.yaml')
-    corpora = [Corpus(file.stem, config) for file in yaml_files]
+    corpora = [Corpus(file.stem, config) for file in yaml_files if file.name.count('.') == 1]
     presigner = Presigner(config.aws_profile)
     for corpus in corpora:
         presigner.presign_list(corpus)

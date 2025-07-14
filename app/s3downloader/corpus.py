@@ -8,7 +8,7 @@ from ipaddress import ip_network
 
 
 class Corpus:
-    def __init__(self, corpus_id, lang, config):
+    def __init__(self, corpus_id, config, lang=None):
         parts = corpus_id.rpartition('.')
         if len(parts[2]) == 2 and not lang and parts[0]:
             corpus_id, _, lang = parts

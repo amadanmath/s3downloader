@@ -61,7 +61,7 @@ def verify_admin_signature(data):
         corpus_id = data['corpus']
         
         # Get the corpus to find the admin's certificate
-        corpus = Corpus(corpus_id, None, config)
+        corpus = Corpus(corpus_id, config)
         cert_path = corpus.certificate
         
         if not cert_path.exists():
@@ -138,7 +138,7 @@ def ensure_admin(corpus=None):
 
 def get_corpus(corpus_id, lang):
     try:
-        corpus = Corpus(corpus_id, lang, config)
+        corpus = Corpus(corpus_id, config, lang)
     except FileNotFoundError:
         abort(404)
 
