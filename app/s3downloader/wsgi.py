@@ -12,6 +12,11 @@ from .corpus import Corpus
 from .whitelist import Whitelist
 from .mail import Mailer
 
+def get_locale():
+    try:
+        return g.lang
+    except AttributeError:
+        return 'en'
 
 app = Flask(__name__)
 config = configure(app)
@@ -19,6 +24,7 @@ if config.num_proxies:
     app.wsgi_app = ProxyFix(app.wsgi_app, **config.num_proxies)
 mailer = Mailer(app, config)
 babel = Babel(app)
+babel.init_app(app, locale_selector=get_locale)
 whitelist = Whitelist(config.data_dir / 'mail_whitelist.txt')
 
 
@@ -46,12 +52,6 @@ def get_corpus(corpus_id, lang):
 
 
 
-@babel.localeselector
-def get_locale():
-    try:
-        return g.lang
-    except AttributeError:
-        return 'en'
 
 
 

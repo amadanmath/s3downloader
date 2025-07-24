@@ -32,6 +32,7 @@ class Corpus:
         self.name = parsed.get('name', corpus_id)
         self.description = parsed['description']
         self.email = parsed.get('email', self.description)
+        self.skip_form = parsed.get('skip_form', False)
 
         self.admin = parsed.get('admin', config.default_admin)
         self.admin_lang = parsed.get('admin_lang')

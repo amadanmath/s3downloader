@@ -34,7 +34,7 @@ msgid "Version 0.1 ©2021"
 msgstr ""
 
 #: app/s3downloader/templates/base.html:64
-msgid "Knowledge and Information Research Team (KIRT)"
+msgid "Language and Information Research Team (LANIRT)"
 msgstr ""
 
 #: app/s3downloader/templates/base.html:69
