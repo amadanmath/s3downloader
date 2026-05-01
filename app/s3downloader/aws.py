@@ -27,6 +27,8 @@ class Presigner:
 
 
     def presign_list(self, corpus, duration=seven_days):
+        if not corpus.corpus_file.exists():
+            return [], []
         unsigned_list = corpus.corpus_file.read_text(encoding='utf-8').splitlines()
         if not unsigned_list:
             return [], []
