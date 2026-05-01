@@ -189,3 +189,7 @@ msgstr ""
 msgid "The URLs for %(corpus_name)s have been sent to %(recipient)s."
 msgstr ""
 
+#: app/s3downloader/wsgi.py
+msgid "Please enter a valid email address."
+msgstr ""
+

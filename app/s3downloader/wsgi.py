@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, g
-from flask_babel import Babel
+from flask_babel import Babel, gettext as _
 from werkzeug.middleware.proxy_fix import ProxyFix
 import sys
 import ipaddress
@@ -186,6 +186,12 @@ def corpus(corpus_id, lang=None):
     name = request.form['name']
     org = request.form['org']
     email = request.form['email']
+
+    parts = email.split('@')
+    if len(parts) != 2 or not parts[0] or not parts[1]:
+        return render_template('index.html', corpus=corpus,
+            error=_('Please enter a valid email address.'),
+            name=name, org=org, email=email)
 
     if whitelist(email):
         mailer.email_corpus_to(corpus, name, email)

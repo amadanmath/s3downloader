@@ -14,9 +14,10 @@
       {{ _("Please fill in the form and we will send you the links to the dataset after we check the application.") }}
     </p>
 
-    <input type="text" name="name" class="form-control mb-4" placeholder="{{ _("Name") }}">
-    <input type="text" name="org" class="form-control mb-4" placeholder="{{ _("Organisation") }}">
-    <input type="email" name="email" class="form-control mb-4" placeholder="{{ _("E-mail") }}">
+    {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+    <input type="text" name="name" class="form-control mb-4" placeholder="{{ _("Name") }}" value="{{ name or '' }}">
+    <input type="text" name="org" class="form-control mb-4" placeholder="{{ _("Organisation") }}" value="{{ org or '' }}">
+    <input type="email" name="email" class="form-control mb-4" placeholder="{{ _("E-mail") }}" value="{{ email or '' }}">
 
     <button class="btn btn-info btn-block my-4" type="submit">{{ _("Send") }}</button>
   </form>
