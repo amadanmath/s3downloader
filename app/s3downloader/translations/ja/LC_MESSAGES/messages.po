@@ -191,3 +191,7 @@ msgstr "別の方法としては，%(openssl)s を使って以下のように復
 msgid "The URLs for %(corpus_name)s have been sent to %(recipient)s."
 msgstr "%(corpus_name)s へのリンクURLは%(recipient)sに送信されました．"
 
+#: app/s3downloader/wsgi.py
+msgid "Please enter a valid email address."
+msgstr "正しいメールアドレスを入力してください．"
+

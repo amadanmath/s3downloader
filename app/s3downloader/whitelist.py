@@ -1,5 +1,8 @@
+import logging
 import requests
 import os
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -21,7 +24,10 @@ class UniversityEntry(WhitelistEntry):
 
     def __call__(self, email):
         try:
-            domain = email.split('@')[1]
+            parts = email.split('@')
+            if len(parts) != 2:
+                return False
+            domain = parts[1]
             r = requests.get(self._university_checker.format(domain=domain))
             result = r.json()
             if result:
